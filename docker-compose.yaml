@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command: 
+    - "--api.insecure=true"
+    - "--providers.docker"
+    - "--accesslog.filePath=/logs/access.log"
+    - "--log.filePath=/logs/log.log"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs/:/logs/
+    networks:
+      - be_network
+  auth-service:
+    container_name: auth-service
+    env_file:
+      - global.env
+    build:
+      context: auth-service
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 8887:8887
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.auth-service.rule=PathPrefix(`/auth`)"
+      - traefik.http.services.auth-service.loadbalancer.server.port=8888
+    networks:
+      - be_network
+  chat-service:
+    container_name: chat-service
+    env_file:
+      - global.env
+    build:
+      context: chat-service
+      dockerfile: Dockerfile
+      target: development
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.chat-service.rule=PathPrefix(`/chat`)"
+      - traefik.http.services.chat-service.loadbalancer.server.port=8889
+    networks:
+      - be_network
+networks:
+  be_network:
+    driver: bridge
