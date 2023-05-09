@@ -6,6 +6,6 @@ export const grpcClientOptions: ClientOptions = {
   options: {
     package: 'hero', 
     protoPath: join(__dirname, './hero/hero.proto'), 
-    url: `${process.env.CHAT_SERVICE_NAME ?? 'localhost'}:8890`
+    url: `${process.env.LIST_TYPE_SERVICE_NAME ?? 'localhost'}:8890`
   },
 };

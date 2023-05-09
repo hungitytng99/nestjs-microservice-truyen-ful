@@ -10,7 +10,7 @@ async function bootstrap() {
     options: {
       package: 'hero', // ['hero', 'hero2']
       protoPath: join(__dirname, './hero/hero.proto'), // ['./hero/hero.proto', './hero/hero2.proto']
-      url: `${process.env.AUTH_SERVICE_NAME ?? 'localhost'}:8887`
+      url: `${process.env.CATEGORY_SERVICE_NAME ?? 'localhost'}:8887`
     },
   });
   // app.connectMicroservice<MicroserviceOptions>({

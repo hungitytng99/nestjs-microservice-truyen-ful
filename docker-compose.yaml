@@ -16,34 +16,34 @@ services:
       - ./logs/:/logs/
     networks:
       - be_network
-  auth-service:
-    container_name: auth-service
+  category-service:
+    container_name: category-service
     env_file:
-      - global.env
+      - .env
     build:
-      context: auth-service
+      context: category-service
       dockerfile: Dockerfile
       target: development
     ports:
       - 8887:8887
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.auth-service.rule=PathPrefix(`/auth`)"
-      - traefik.http.services.auth-service.loadbalancer.server.port=8888
+      - "traefik.http.routers.category-service.rule=PathPrefix(`/auth`)"
+      - traefik.http.services.category-service.loadbalancer.server.port=8888
     networks:
       - be_network
-  chat-service:
-    container_name: chat-service
+  list-type-service:
+    container_name: list-type-service
     env_file:
-      - global.env
+      - .env
     build:
-      context: chat-service
+      context: list-type-service
       dockerfile: Dockerfile
       target: development
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.chat-service.rule=PathPrefix(`/chat`)"
-      - traefik.http.services.chat-service.loadbalancer.server.port=8889
+      - "traefik.http.routers.list-type-service.rule=PathPrefix(`/chat`)"
+      - traefik.http.services.list-type-service.loadbalancer.server.port=8889
     networks:
       - be_network
 networks:
