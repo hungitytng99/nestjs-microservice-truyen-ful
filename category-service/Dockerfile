@@ -1,10 +1,8 @@
 ###################
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
-FROM node:16-alpine AS development
+FROM node:16-slim AS development
 WORKDIR /usr/src/app
-COPY package*.json /usr/src/app
-RUN npm install
 COPY . /usr/src/app
-# RUN npm run build
+RUN npm install
 CMD ["npm", "run", "start:dev"]
