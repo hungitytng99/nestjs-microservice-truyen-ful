@@ -1,0 +1,17 @@
+export enum ENUM_LIST_TYPES_CODE {
+    New = 'New',
+    Hot = 'Hot',
+    Full = 'Full',
+    HotFairy = 'HotFairy',
+    HotSwordPlay = 'HotSwordPlay',
+    HotTeen = 'HotTeen',
+    HotLove = 'HotLove',
+    SexLove = 'SexLove',
+    ReverseLove = 'ReverseLove',
+    PamperedLove = 'PamperedLove',
+    ComedyLove = 'ComedyLove',
+    ComedyGayMan = 'ComedyGayMan',
+    HotGayMan = 'HotGayMan',
+    HeavySexGayMan = 'HeavySexGayMan',
+    SexGayMan = 'SexGayMan',
+}
