@@ -1,0 +1,21 @@
+version: '3'
+networks:
+  tf-be-network:
+    driver: bridge
+services:
+  mongodb-tf:
+    image: mongo:6.0.2
+    container_name: mongodb_truyenful
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: truyenful
+      MONGO_INITDB_ROOT_PASSWORD: nuAfBHEH3bbC8MH
+    volumes:
+      - mongo_db:/data/db
+    ports:
+      - 8465:27017
+    networks:
+      - tf-be-network
+    restart: always
+
+volumes:
+  mongo_db:

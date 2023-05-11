@@ -8,7 +8,7 @@ export const CategoryDatabaseName = 'category';
 @DatabaseEntity({ collection: CategoryDatabaseName })
 export class CategoryEntity extends DatabaseMongoUUIDEntityAbstract {
     @Prop({
-        required: false,
+        required: true,
         sparse: true,
         index: true,
         trim: true,
@@ -18,7 +18,7 @@ export class CategoryEntity extends DatabaseMongoUUIDEntityAbstract {
     title?: string;
 
     @Prop({
-        required: true,
+        required: false,
         trim: true,
         type: String,
     })

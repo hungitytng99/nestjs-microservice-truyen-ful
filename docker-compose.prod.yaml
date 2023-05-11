@@ -1,13 +1,26 @@
 version: "3.9"
 services:
+  mongodb-tf:
+    image: mongo:6.0.2
+    container_name: mongodb_truyenful
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: truyenful
+      MONGO_INITDB_ROOT_PASSWORD: nuAfBHEH3bbC8MH
+    volumes:
+      - mongo_db:/data/db
+    ports:
+      - 8465:27017
+    networks:
+      - tf-be-network
+    restart: always
   traefik:
     image: "traefik:v2.10"
     container_name: "traefik"
-    command: 
-    - "--api.insecure=true"
-    - "--providers.docker"
-    - "--accesslog.filePath=/logs/access.log"
-    - "--log.filePath=/logs/log.log"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--accesslog.filePath=/logs/access.log"
+      - "--log.filePath=/logs/log.log"
     ports:
       - "80:80"
       - "8080:8080"
@@ -24,14 +37,14 @@ services:
       context: category-service
       dockerfile: Dockerfile
       target: development
-    ports:
-      - 8887:8887
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.category-service.rule=PathPrefix(`/auth`)"
+      - "traefik.http.routers.category-service.rule=((PathPrefix(`/api/v1/public/category`) || PathPrefix(`/api/v1/admin/category`)) || || PathPrefix(`/api/v1/user/category`))"
       - traefik.http.services.category-service.loadbalancer.server.port=8888
     networks:
       - be_network
+    depends_on:
+      - mongodb-tf
   list-type-service:
     container_name: list-type-service
     env_file:
@@ -42,10 +55,12 @@ services:
       target: development
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.list-type-service.rule=PathPrefix(`/chat`)"
+      - "traefik.http.routers.category-service.rule=((PathPrefix(`/api/v1/public/list-types`) || PathPrefix(`/api/v1/admin/list-types`)) || || PathPrefix(`/api/v1/user/list-types`))"
       - traefik.http.services.list-type-service.loadbalancer.server.port=8889
     networks:
       - be_network
+    depends_on:
+      - mongodb-tf
 networks:
   be_network:
     driver: bridge
